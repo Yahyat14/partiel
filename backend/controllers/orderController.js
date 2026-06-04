@@ -84,8 +84,8 @@ exports.createOrder = async (req, res) => {
       total,
       shippingAddress,
       paymentMethod,
-      status: 'pending',
-      paymentStatus: 'pending'
+      status: 'processing',
+      paymentStatus: 'completed'
     });
 
     await order.save();

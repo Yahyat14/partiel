@@ -4,6 +4,9 @@ const router = express.Router();
 const orderController = require('../controllers/orderController');
 const { authMiddleware, adminMiddleware } = require('../middleware/auth');
 
+// GET - Order stats (admin only)
+router.get('/stats', adminMiddleware, orderController.getOrderStats);
+
 // GET - All orders (admin) or user's orders (client)
 router.get('/', authMiddleware, orderController.getOrders);
 
@@ -15,9 +18,6 @@ router.post('/', authMiddleware, orderController.createOrder);
 
 // PUT - Update order status (admin only)
 router.put('/:id', adminMiddleware, orderController.updateOrder);
-
-// GET - Order stats (admin only)
-router.get('/stats', adminMiddleware, orderController.getOrderStats);
 
 module.exports = router;
 

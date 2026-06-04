@@ -11,7 +11,7 @@ export const useCartStore = create((set, get) => ({
   addItem: (product) => {
     const items = get().items;
     const existingIndex = items.findIndex((item) => item._id === product._id);
-    let newItems = [];
+    let newItems;
 
     if (existingIndex > -1) {
       newItems = items.map((item, idx) =>

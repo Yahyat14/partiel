@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Coffee Arts Paris - Full Stack Clone
 
 A complete functional reproduction of the CoffeeArtsParis website with e-commerce, workshops, blog, and admin management system.
@@ -394,3 +395,6 @@ This project is for educational purposes (ISITN 4ème année exam).
 
 **Last Updated**: June 4, 2026  
 **Exam Date**: June 4, 2026
+=======
+# partiel
+>>>>>>> e8dff088412012763aa8828a30dbc928ac708c2c

@@ -1,53 +1,27 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const reservationSchema = new mongoose.Schema({
-  reservationNumber: {
-    type: String,
-    unique: true,
-    required: true
-  },
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
-  },
-  workshopId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Workshop',
-    required: true
-  },
-  quantity: {
-    type: Number,
-    required: true,
-    min: 1,
-    default: 1
-  },
-  price: {
-    type: Number,
-    required: true
-  },
+  reservationNumber: { type: String, unique: true, sparse: true },
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  workshopId: { type: mongoose.Schema.Types.ObjectId, ref: "Workshop" },
+  title: { type: String, default: "" },
+  quantity: { type: Number, default: 1, min: 1 },
+  price: { type: Number, default: 0 },
+  participants: [
+    {
+      firstName: String,
+      lastName: String,
+      email: String,
+    },
+  ],
   status: {
     type: String,
-    enum: ['pending', 'confirmed', 'cancelled', 'completed'],
-    default: 'confirmed'
+    enum: ["pending", "confirmed", "cancelled"],
+    default: "pending",
   },
-  participants: [{
-    firstName: String,
-    lastName: String,
-    email: String
-  }],
-  notes: {
-    type: String,
-    default: ''
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now
-  },
-  updatedAt: {
-    type: Date,
-    default: Date.now
-  }
+  notes: { type: String, default: "" },
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now },
 });
 
-module.exports = mongoose.model('Reservation', reservationSchema);
+module.exports = mongoose.model("Reservation", reservationSchema);

@@ -1,127 +1,237 @@
-import './App.css'
+import { NavLink, Route, Routes } from "react-router-dom";
+import { useMemo, useState } from "react";
+import "./App.css";
+import Home from "./pages/Home.jsx";
+import Carte from "./pages/Carte.jsx";
+import {
+  About,
+  Account,
+  AdminDashboard,
+  Ateliers,
+  Blog,
+  Boutique,
+  Contact,
+  Events,
+  ProductDetail,
+} from "./pages/SitePages.jsx";
+import { useCartStore } from "./store/useCartStore.js";
 
-const App = () => {
+const navItems = [
+  { label: "Café", to: "/carte" },
+  { label: "Céramique", to: "/ateliers" },
+  { label: "Boutique", to: "/boutique" },
+  { label: "Événements", to: "/evenements" },
+  { label: "Blog", to: "/blog" },
+  { label: "À propos", to: "/a-propos" },
+  { label: "Contact", to: "/contact" },
+  { label: "Admin", to: "/admin" },
+];
+
+const PlaceholderPage = ({ title, text }) => (
+  <main className="placeholder-page">
+    <div className="container">
+      <p className="eyebrow">Coffee Arts Paris</p>
+      <h1>{title}</h1>
+      <p>{text}</p>
+      <NavLink className="btn btn-primary" to="/">
+        Retour à l'accueil
+      </NavLink>
+    </div>
+  </main>
+);
+
+function App() {
+  const [cartOpen, setCartOpen] = useState(false);
+  const { items, removeItem, updateQuantity } = useCartStore();
+
+  const cartTotal = useMemo(
+    () =>
+      items.reduce((total, item) => {
+        const price = Number.parseFloat(String(item.price).replace(",", "."));
+        return total + (Number.isNaN(price) ? 0 : price * item.quantity);
+      }, 0),
+    [items],
+  );
+
+  const cartCount = items.reduce((count, item) => count + item.quantity, 0);
+
   return (
-    <div className="page">
-      <header className="header">
-        <div className="container headerInner">
-          <div className="brand">Coffee Arts Paris</div>
-          <nav className="nav">
-            <a href="#home">Accueil</a>
-            <a href="#shop">Boutique</a>
-            <a href="#workshops">Ateliers</a>
-            <a href="#blog">Blog</a>
-            <a href="#contact">Contact</a>
+    <div className="app-shell">
+      <header className="app-header">
+        <div className="container header-inner">
+          <NavLink className="brand" to="/" aria-label="Coffee Arts Paris">
+            <span className="brand-mark">CA</span>
+            <span>
+              <span className="brand-name">Coffee Arts</span>
+              <span className="brand-city">Paris</span>
+            </span>
+          </NavLink>
+
+          <nav className="nav-menu" aria-label="Navigation principale">
+            {navItems.map((item) => (
+              <NavLink className="nav-link" key={item.to} to={item.to}>
+                {item.label}
+              </NavLink>
+            ))}
           </nav>
+
+          <div className="header-actions">
+            <button className="icon-btn" type="button" aria-label="Rechercher">
+              <span aria-hidden="true">⌕</span>
+            </button>
+            <button
+              className="icon-btn"
+              type="button"
+              aria-label="Ouvrir le panier"
+              onClick={() => setCartOpen(true)}
+            >
+              <span aria-hidden="true">◐</span>
+              {cartCount > 0 && <span className="badge">{cartCount}</span>}
+            </button>
+            <button className="icon-btn" type="button" aria-label="Compte client">
+              <span aria-hidden="true">◎</span>
+            </button>
+          </div>
         </div>
       </header>
 
-      <main>
-        <section id="home" className="hero">
-          <div className="container heroGrid">
-            <div>
-              <h1>Le café, l’art & l’artisanat.</h1>
-              <p>
-                Découvre nos produits, réserve un atelier et lis nos articles.
-                (UI à brancher sur l’API.)
-              </p>
-              <div className="heroActions">
-                <a className="btn" href="#shop">Découvrir la boutique</a>
-                <a className="btn btnGhost" href="#workshops">Réserver un atelier</a>
-              </div>
-            </div>
-            <div className="heroCard">
-              <div className="heroCardTitle">Atelier du mois</div>
-              <div className="heroCardBody">
-                <div className="pill">Places limitées</div>
-                <div className="heroCardName">Dégustation & latte-art</div>
-                <div className="muted">Chaque réservation est confirmée sous peu.</div>
-              </div>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/carte" element={<Carte />} />
+        <Route path="/ateliers" element={<Ateliers />} />
+        <Route path="/boutique" element={<Boutique />} />
+        <Route path="/boutique/:id" element={<ProductDetail />} />
+        <Route path="/evenements" element={<Events />} />
+        <Route path="/blog" element={<Blog />} />
+        <Route path="/a-propos" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/espace-client" element={<Account />} />
+        <Route path="/admin" element={<AdminDashboard />} />
+        <Route
+          path="*"
+          element={
+            <PlaceholderPage
+              title="Page en préparation"
+              text="Cette rubrique arrive bientôt. En attendant, l'accueil présente l'univers du lieu."
+            />
+          }
+        />
+      </Routes>
+
+      <footer className="app-footer">
+        <div className="container footer-grid">
+          <div className="footer-brand">
+            <div className="footer-logo">Coffee Arts Paris</div>
+            <p>
+              Un lieu unique où la céramique rencontre le café artisanal à Paris.
+              Créer, déguster, partager.
+            </p>
+            <div className="social-links" aria-label="Réseaux sociaux">
+              <a href="https://www.instagram.com/" aria-label="Instagram">
+                IG
+              </a>
+              <a href="https://www.tiktok.com/" aria-label="TikTok">
+                TT
+              </a>
             </div>
           </div>
-        </section>
 
-        <section id="shop" className="section">
-          <div className="container">
-            <h2>Boutique</h2>
-            <div className="grid">
-              {Array.from({ length: 6 }).map((_, idx) => (
-                <div className="card" key={idx}>
-                  <div className="cardImg" />
-                  <div className="cardTitle">Produit #{idx + 1}</div>
-                  <div className="cardPrice">—</div>
-                  <button className="cardBtn" type="button">Voir</button>
-                </div>
+          <div>
+            <h3>Découvrir</h3>
+            <div className="footer-links-grid">
+              {navItems.map((item) => (
+                <NavLink className="footer-link" key={item.to} to={item.to}>
+                  {item.label}
+                </NavLink>
               ))}
+              <NavLink className="footer-link" to="/espace-client">
+                Espace client
+              </NavLink>
             </div>
           </div>
-        </section>
 
-        <section id="workshops" className="section sectionAlt">
-          <div className="container">
-            <h2>Ateliers</h2>
-            <div className="grid">
-              {Array.from({ length: 4 }).map((_, idx) => (
-                <div className="card" key={idx}>
-                  <div className="cardImg cardImgTall" />
-                  <div className="cardTitle">Atelier #{idx + 1}</div>
-                  <div className="cardPrice">—</div>
-                  <button className="cardBtn" type="button">Réserver</button>
-                </div>
-              ))}
-            </div>
+          <div>
+            <h3>Contact</h3>
+            <ul className="footer-list">
+              <li>07.66.91.82.94</li>
+              <li>coffeeartsparis@gmail.com</li>
+              <li>25 Boulevard du Temple</li>
+              <li>75003 Paris</li>
+            </ul>
           </div>
-        </section>
 
-        <section id="blog" className="section">
-          <div className="container">
-            <h2>Blog</h2>
-            <div className="grid">
-              {Array.from({ length: 3 }).map((_, idx) => (
-                <div className="card" key={idx}>
-                  <div className="cardImg cardImgBlog" />
-                  <div className="cardTitle">Article #{idx + 1}</div>
-                  <div className="muted">Résumé à venir (API)</div>
-                  <button className="cardBtn" type="button">Lire</button>
-                </div>
-              ))}
-            </div>
+          <div>
+            <h3>Horaires</h3>
+            <ul className="footer-list">
+              <li>Mardi - Vendredi</li>
+              <li>08h - 20h</li>
+              <li>Samedi - Dimanche</li>
+              <li>10h - 21h</li>
+            </ul>
           </div>
-        </section>
+        </div>
 
-        <section id="contact" className="section sectionAlt">
-          <div className="container">
-            <h2>Contact</h2>
-            <div className="contactGrid">
-              <div className="contactBox">
-                <div className="muted">Formulaire à brancher sur /api/contact</div>
-                <form className="form">
-                  <input name="name" placeholder="Nom" className="input" />
-                  <input name="email" placeholder="Email" className="input" />
-                  <input name="subject" placeholder="Sujet" className="input" />
-                  <textarea name="message" placeholder="Message" className="input textarea" />
-                  <button className="btn" type="button">Envoyer</button>
-                </form>
-              </div>
-              <div className="contactInfo">
-                <div className="infoItem"><b>Adresse</b><div className="muted">À compléter</div></div>
-                <div className="infoItem"><b>Horaires</b><div className="muted">À compléter</div></div>
-                <div className="infoItem"><b>Email</b><div className="muted">contact@coffeeartsparis.fr</div></div>
-              </div>
-            </div>
+        <div className="container footer-bottom">
+          <p>© 2026 Coffee Arts Paris. Tous droits réservés.</p>
+          <div className="footer-legal">
+            <a href="#">Politique de confidentialité</a>
+            <a href="#">Mentions légales</a>
+            <a href="#">CGV</a>
           </div>
-        </section>
-      </main>
-
-      <footer className="footer">
-        <div className="container footerInner">
-          <div>© {new Date().getFullYear()} Coffee Arts Paris</div>
-          <div className="muted">UI skeleton proche de la charte — data API à brancher</div>
         </div>
       </footer>
+
+      <div
+        className={`cart-drawer-overlay ${cartOpen ? "open" : ""}`}
+        onClick={() => setCartOpen(false)}
+      >
+        <aside className="cart-drawer" onClick={(event) => event.stopPropagation()}>
+          <div className="cart-header">
+            <h2>Panier</h2>
+            <button className="icon-btn" type="button" onClick={() => setCartOpen(false)}>
+              ×
+            </button>
+          </div>
+          <div className="cart-items-container">
+            {items.length === 0 ? (
+              <p>Votre panier est vide pour le moment.</p>
+            ) : (
+              items.map((item) => (
+                <article className="cart-item" key={item._id}>
+                  <img className="cart-item-img" src={item.image || item.img} alt="" />
+                  <div className="cart-item-info">
+                    <h3 className="cart-item-title">{item.name || item.title}</h3>
+                    <p className="cart-item-price">{item.price} €</p>
+                    <div className="cart-item-qty">
+                      <button type="button" onClick={() => updateQuantity(item._id, item.quantity - 1)}>
+                        -
+                      </button>
+                      <span>{item.quantity}</span>
+                      <button type="button" onClick={() => updateQuantity(item._id, item.quantity + 1)}>
+                        +
+                      </button>
+                      <button type="button" onClick={() => removeItem(item._id)}>
+                        Retirer
+                      </button>
+                    </div>
+                  </div>
+                </article>
+              ))
+            )}
+          </div>
+          <div className="cart-footer">
+            <div className="cart-total-row">
+              <span>Total</span>
+              <span>{cartTotal.toFixed(2)} €</span>
+            </div>
+            <button className="btn btn-primary" type="button">
+              Commander
+            </button>
+          </div>
+        </aside>
+      </div>
     </div>
-  )
+  );
 }
 
-export default App
-
+export default App;
