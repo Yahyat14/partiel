@@ -1,24 +1,23 @@
 const express = require('express');
 const router = express.Router();
 
+const orderController = require('../controllers/orderController');
+const { authMiddleware, adminMiddleware } = require('../middleware/auth');
+
 // GET - All orders (admin) or user's orders (client)
-router.get('/', (req, res) => {
-  res.json({ message: 'Get orders - to be implemented' });
-});
+router.get('/', authMiddleware, orderController.getOrders);
 
 // GET - Order by ID
-router.get('/:id', (req, res) => {
-  res.json({ message: 'Get order by ID - to be implemented' });
-});
+router.get('/:id', authMiddleware, orderController.getOrderById);
 
 // POST - Create order
-router.post('/', (req, res) => {
-  res.json({ message: 'Create order - to be implemented' });
-});
+router.post('/', authMiddleware, orderController.createOrder);
 
 // PUT - Update order status (admin only)
-router.put('/:id', (req, res) => {
-  res.json({ message: 'Update order - to be implemented' });
-});
+router.put('/:id', adminMiddleware, orderController.updateOrder);
+
+// GET - Order stats (admin only)
+router.get('/stats', adminMiddleware, orderController.getOrderStats);
 
 module.exports = router;
+

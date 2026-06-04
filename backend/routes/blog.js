@@ -1,29 +1,26 @@
 const express = require('express');
 const router = express.Router();
 
-// GET - All blog posts
-router.get('/', (req, res) => {
-  res.json({ message: 'Get all blog posts - to be implemented' });
-});
+const blogController = require('../controllers/blogController');
+const { authMiddleware, adminMiddleware } = require('../middleware/auth');
 
-// GET - Blog post by ID
-router.get('/:id', (req, res) => {
-  res.json({ message: 'Get blog post by ID - to be implemented' });
-});
+// GET - All blog posts
+router.get('/', blogController.getAllBlogs);
+
+// GET - Blog post by ID or slug
+router.get('/:id', blogController.getBlogById);
 
 // POST - Create blog post (admin only)
-router.post('/', (req, res) => {
-  res.json({ message: 'Create blog post - to be implemented' });
-});
+router.post('/', adminMiddleware, blogController.createBlog);
 
 // PUT - Update blog post (admin only)
-router.put('/:id', (req, res) => {
-  res.json({ message: 'Update blog post - to be implemented' });
-});
+router.put('/:id', adminMiddleware, blogController.updateBlog);
 
 // DELETE - Delete blog post (admin only)
-router.delete('/:id', (req, res) => {
-  res.json({ message: 'Delete blog post - to be implemented' });
-});
+router.delete('/:id', adminMiddleware, blogController.deleteBlog);
+
+// POST - Add comment (requires auth)
+router.post('/:id/comments', authMiddleware, blogController.addComment);
 
 module.exports = router;
+

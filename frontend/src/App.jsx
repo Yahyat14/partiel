@@ -1,122 +1,127 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
 import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
-
+const App = () => {
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
+    <div className="page">
+      <header className="header">
+        <div className="container headerInner">
+          <div className="brand">Coffee Arts Paris</div>
+          <nav className="nav">
+            <a href="#home">Accueil</a>
+            <a href="#shop">Boutique</a>
+            <a href="#workshops">Ateliers</a>
+            <a href="#blog">Blog</a>
+            <a href="#contact">Contact</a>
+          </nav>
         </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+      </header>
 
-      <div className="ticks"></div>
+      <main>
+        <section id="home" className="hero">
+          <div className="container heroGrid">
+            <div>
+              <h1>Le café, l’art & l’artisanat.</h1>
+              <p>
+                Découvre nos produits, réserve un atelier et lis nos articles.
+                (UI à brancher sur l’API.)
+              </p>
+              <div className="heroActions">
+                <a className="btn" href="#shop">Découvrir la boutique</a>
+                <a className="btn btnGhost" href="#workshops">Réserver un atelier</a>
+              </div>
+            </div>
+            <div className="heroCard">
+              <div className="heroCardTitle">Atelier du mois</div>
+              <div className="heroCardBody">
+                <div className="pill">Places limitées</div>
+                <div className="heroCardName">Dégustation & latte-art</div>
+                <div className="muted">Chaque réservation est confirmée sous peu.</div>
+              </div>
+            </div>
+          </div>
+        </section>
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+        <section id="shop" className="section">
+          <div className="container">
+            <h2>Boutique</h2>
+            <div className="grid">
+              {Array.from({ length: 6 }).map((_, idx) => (
+                <div className="card" key={idx}>
+                  <div className="cardImg" />
+                  <div className="cardTitle">Produit #{idx + 1}</div>
+                  <div className="cardPrice">—</div>
+                  <button className="cardBtn" type="button">Voir</button>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+        <section id="workshops" className="section sectionAlt">
+          <div className="container">
+            <h2>Ateliers</h2>
+            <div className="grid">
+              {Array.from({ length: 4 }).map((_, idx) => (
+                <div className="card" key={idx}>
+                  <div className="cardImg cardImgTall" />
+                  <div className="cardTitle">Atelier #{idx + 1}</div>
+                  <div className="cardPrice">—</div>
+                  <button className="cardBtn" type="button">Réserver</button>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="blog" className="section">
+          <div className="container">
+            <h2>Blog</h2>
+            <div className="grid">
+              {Array.from({ length: 3 }).map((_, idx) => (
+                <div className="card" key={idx}>
+                  <div className="cardImg cardImgBlog" />
+                  <div className="cardTitle">Article #{idx + 1}</div>
+                  <div className="muted">Résumé à venir (API)</div>
+                  <button className="cardBtn" type="button">Lire</button>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="contact" className="section sectionAlt">
+          <div className="container">
+            <h2>Contact</h2>
+            <div className="contactGrid">
+              <div className="contactBox">
+                <div className="muted">Formulaire à brancher sur /api/contact</div>
+                <form className="form">
+                  <input name="name" placeholder="Nom" className="input" />
+                  <input name="email" placeholder="Email" className="input" />
+                  <input name="subject" placeholder="Sujet" className="input" />
+                  <textarea name="message" placeholder="Message" className="input textarea" />
+                  <button className="btn" type="button">Envoyer</button>
+                </form>
+              </div>
+              <div className="contactInfo">
+                <div className="infoItem"><b>Adresse</b><div className="muted">À compléter</div></div>
+                <div className="infoItem"><b>Horaires</b><div className="muted">À compléter</div></div>
+                <div className="infoItem"><b>Email</b><div className="muted">contact@coffeeartsparis.fr</div></div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer className="footer">
+        <div className="container footerInner">
+          <div>© {new Date().getFullYear()} Coffee Arts Paris</div>
+          <div className="muted">UI skeleton proche de la charte — data API à brancher</div>
+        </div>
+      </footer>
+    </div>
   )
 }
 
 export default App
+

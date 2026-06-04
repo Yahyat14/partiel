@@ -1,29 +1,24 @@
 const express = require('express');
 const router = express.Router();
 
-// GET - All reservations
-router.get('/', (req, res) => {
-  res.json({ message: 'Get reservations - to be implemented' });
-});
+const reservationController = require('../controllers/reservationController');
+const { authMiddleware, adminMiddleware } = require('../middleware/auth');
+
+// GET - All reservations (admin) or user's reservations (client)
+router.get('/', authMiddleware, reservationController.getReservations);
 
 // GET - Reservation by ID
-router.get('/:id', (req, res) => {
-  res.json({ message: 'Get reservation by ID - to be implemented' });
-});
+router.get('/:id', authMiddleware, reservationController.getReservationById);
 
 // POST - Create reservation
-router.post('/', (req, res) => {
-  res.json({ message: 'Create reservation - to be implemented' });
-});
+router.post('/', authMiddleware, reservationController.createReservation);
 
-// PUT - Update reservation
-router.put('/:id', (req, res) => {
-  res.json({ message: 'Update reservation - to be implemented' });
-});
+// PUT - Update reservation (admin only)
+router.put('/:id', adminMiddleware, reservationController.updateReservation);
 
-// DELETE - Cancel reservation
-router.delete('/:id', (req, res) => {
-  res.json({ message: 'Delete reservation - to be implemented' });
-});
+// DELETE - Cancel reservation (client)
+router.delete('/:id', authMiddleware, reservationController.cancelReservation);
+
 
 module.exports = router;
+

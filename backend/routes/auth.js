@@ -1,24 +1,21 @@
 const express = require('express');
 const router = express.Router();
+const authController = require('../controllers/authController');
+const { authMiddleware } = require('../middleware/auth');
 
 // POST - User registration
-router.post('/register', (req, res) => {
-  res.json({ message: 'Register endpoint - to be implemented' });
-});
+router.post('/register', authController.register);
 
 // POST - User login
-router.post('/login', (req, res) => {
-  res.json({ message: 'Login endpoint - to be implemented' });
-});
+router.post('/login', authController.login);
 
 // POST - Admin login
-router.post('/admin-login', (req, res) => {
-  res.json({ message: 'Admin login endpoint - to be implemented' });
-});
+router.post('/admin-login', authController.adminLogin);
+
+// GET - Get current user
+router.get('/me', authMiddleware, authController.getCurrentUser);
 
 // POST - Logout
-router.post('/logout', (req, res) => {
-  res.json({ message: 'Logout endpoint - to be implemented' });
-});
+router.post('/logout', authController.logout);
 
 module.exports = router;

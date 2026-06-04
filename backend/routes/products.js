@@ -1,29 +1,26 @@
 const express = require('express');
 const router = express.Router();
 
+const productController = require('../controllers/productController');
+const { adminMiddleware } = require('../middleware/auth');
+
 // GET - All products
-router.get('/', (req, res) => {
-  res.json({ message: 'Get all products - to be implemented' });
-});
+router.get('/', productController.getAllProducts);
 
 // GET - Product by ID
-router.get('/:id', (req, res) => {
-  res.json({ message: 'Get product by ID - to be implemented' });
-});
+router.get('/:id', productController.getProductById);
+
+// GET - Categories
+router.get('/categories', productController.getCategories);
 
 // POST - Create product (admin only)
-router.post('/', (req, res) => {
-  res.json({ message: 'Create product - to be implemented' });
-});
+router.post('/', adminMiddleware, productController.createProduct);
 
 // PUT - Update product (admin only)
-router.put('/:id', (req, res) => {
-  res.json({ message: 'Update product - to be implemented' });
-});
+router.put('/:id', adminMiddleware, productController.updateProduct);
 
 // DELETE - Delete product (admin only)
-router.delete('/:id', (req, res) => {
-  res.json({ message: 'Delete product - to be implemented' });
-});
+router.delete('/:id', adminMiddleware, productController.deleteProduct);
 
 module.exports = router;
+

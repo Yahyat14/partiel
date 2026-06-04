@@ -1,29 +1,29 @@
 const express = require('express');
 const router = express.Router();
 
+const workshopController = require('../controllers/workshopController');
+const { authMiddleware, adminMiddleware } = require('../middleware/auth');
+
 // GET - All workshops
-router.get('/', (req, res) => {
-  res.json({ message: 'Get all workshops - to be implemented' });
-});
+router.get('/', workshopController.getAllWorkshops);
 
 // GET - Workshop by ID
-router.get('/:id', (req, res) => {
-  res.json({ message: 'Get workshop by ID - to be implemented' });
-});
+router.get('/:id', workshopController.getWorkshopById);
 
 // POST - Create workshop (admin only)
-router.post('/', (req, res) => {
-  res.json({ message: 'Create workshop - to be implemented' });
-});
+router.post('/', adminMiddleware, workshopController.createWorkshop);
 
 // PUT - Update workshop (admin only)
-router.put('/:id', (req, res) => {
-  res.json({ message: 'Update workshop - to be implemented' });
-});
+router.put('/:id', adminMiddleware, workshopController.updateWorkshop);
 
 // DELETE - Delete workshop (admin only)
-router.delete('/:id', (req, res) => {
-  res.json({ message: 'Delete workshop - to be implemented' });
-});
+router.delete('/:id', adminMiddleware, workshopController.deleteWorkshop);
+
+// POST - Register for workshop (client)
+router.post('/:id/register', authMiddleware, workshopController.registerWorkshop);
+
+// POST - Unregister from workshop (client)
+router.post('/:id/unregister', authMiddleware, workshopController.unregisterWorkshop);
 
 module.exports = router;
+
