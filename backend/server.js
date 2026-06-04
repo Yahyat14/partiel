@@ -1,45 +1,117 @@
 const express = require("express");
 const cors = require("cors");
-const connectDB = require("./config/db");
-const seedData = require("./config/seed");
-require("dotenv").config();
 
 const app = express();
 
-// Middlewares
-app.use(cors({
-  origin: [
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
-    process.env.FRONTEND_URL,
-  ].filter(Boolean),
-  credentials: true,
-}));
+app.use(cors());
 app.use(express.json());
 
-// Routes
-app.use("/api/products", require("./routes/products"));
-app.use("/api/workshops", require("./routes/workshops"));
-app.use("/api/reservations", require("./routes/reservations"));
-app.use("/api/contact", require("./routes/contact"));
-app.use("/api/auth", require("./routes/auth"));
-app.use("/api/orders", require("./routes/orders"));
-app.use("/api/blog", require("./routes/blog"));
-app.use("/api/users", require("./routes/users"));
-app.use("/api/admin", require("./routes/admin"));
+/* =========================
+   DATA (SIMULATION DB)
+========================= */
 
-app.get("/api/health", (req, res) => {
-  res.json({ ok: true, service: "coffee-arts-api" });
+let products = [
+  {
+    id: 1,
+    name: "Café Signature",
+    price: "14€",
+    image: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085"
+  },
+  {
+    id: 2,
+    name: "Tasse Artisanale",
+    price: "22€",
+    image: "https://images.unsplash.com/photo-1517705008128-361805f42e86"
+  },
+  {
+    id: 3,
+    name: "Café Éthiopien",
+    price: "18€",
+    image: "https://images.unsplash.com/photo-1509042239860-f550ce710b93"
+  }
+];
+
+let reservations = [];
+let messages = [];
+
+/* =========================
+   PRODUCTS ROUTES
+========================= */
+
+// GET all products
+app.get("/products", (req, res) => {
+  res.json(products);
 });
 
-const PORT = process.env.PORT || 5000;
+// UPDATE product (ADMIN)
+app.put("/products/:id", (req, res) => {
+  const id = parseInt(req.params.id);
 
-connectDB().then(async () => {
-  if (process.env.SEED_ON_START !== "false") {
-    await seedData();
-  }
+  products = products.map((p) =>
+    p.id === id ? { ...p, ...req.body } : p
+  );
 
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+  res.json({
+    success: true,
+    message: "Produit mis à jour",
+    products,
   });
+});
+
+/* =========================
+   RESERVATIONS
+========================= */
+
+app.post("/reservations", (req, res) => {
+  const reservation = {
+    id: Date.now(),
+    ...req.body,
+  };
+
+  reservations.push(reservation);
+
+  console.log("📌 Nouvelle réservation :", reservation);
+
+  res.json({
+    success: true,
+    message: "Réservation enregistrée",
+  });
+});
+
+app.get("/reservations", (req, res) => {
+  res.json(reservations);
+});
+
+/* =========================
+   CONTACT MESSAGES
+========================= */
+
+app.post("/contact", (req, res) => {
+  const message = {
+    id: Date.now(),
+    ...req.body,
+  };
+
+  messages.push(message);
+
+  console.log("📩 Nouveau message :", message);
+
+  res.json({
+    success: true,
+    message: "Message envoyé",
+  });
+});
+
+app.get("/contact", (req, res) => {
+  res.json(messages);
+});
+
+/* =========================
+   SERVER START
+========================= */
+
+const PORT = 5000;
+
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on http://localhost:${PORT}`);
 });

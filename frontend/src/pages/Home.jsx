@@ -6,73 +6,106 @@ const experiences = [
     title: "Café de spécialité",
     action: "Découvrir la carte",
     link: "/carte",
-    image:
-      "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=1200&auto=format&fit=crop",
+    image: "/IMG_8509.jpg",
+    imageClass: "experience-img experience-img--cafe",
   },
   {
     badge: "CRÉER",
     title: "Ateliers créatifs",
     action: "Participer à un atelier",
     link: "/ateliers",
-    image:
-      "https://images.unsplash.com/photo-1610701596007-11502861dcfa?q=80&w=1200&auto=format&fit=crop",
+    image: "/Design.png",
+    imageClass: "experience-img",
   },
   {
     badge: "EMPORTER",
     title: "La boutique",
     action: "Explorer la boutique",
     link: "/boutique",
-    image:
-      "https://images.unsplash.com/photo-1576092768241-dec231879fc3?q=80&w=1200&auto=format&fit=crop",
+    image: "/image3.jpg",
+    imageClass: "experience-img",
   },
 ];
 
 const galleryImages = [
-  "https://images.unsplash.com/photo-1521017432531-fbd92d768814?q=80&w=900&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1610701596007-11502861dcfa?q=80&w=900&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?q=80&w=900&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1565192647048-f997ded87958?q=80&w=900&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=900&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1507914372368-b2b085b925a1?q=80&w=900&auto=format&fit=crop",
+  "/artisan-coffee-cafe-with-ceramic-pottery-handmade-.jpg",
+  "/CERAMIQUE---PHOTO-1.jpg",
+  "/SIGNATURES---PHOTO-2.jpg",
+  "/SIGNATURES---PHOTO-3.jpg",
+  "/SIGNATURES---PHOTO-5.jpg",
+  "/SIGNATURES---PHOTO-7.jpg",
+  "/test2.jpg",
+  "/IMG_8509.jpg",
 ];
 
-const instagramCards = [
-  "atelier du matin",
-  "matcha latte",
-  "pièces émaillées",
-  "pause boulevard",
+const instagramPosts = [
+  { image: galleryImages[0], label: "atelier du matin" },
+  { image: galleryImages[2], label: "matcha latte" },
+  { image: galleryImages[4], label: "pièces émaillées" },
+  { image: galleryImages[5], label: "pause boulevard" },
 ];
 
 const Home = () => {
   return (
-    <main className="home-page">
+    <div className="home-page">
       <section className="hero-section">
-        <div className="hero-media" aria-hidden="true" />
-        <div className="hero-shade" aria-hidden="true" />
-        <div className="container hero-content">
-          <p className="eyebrow">Specialty coffee & pottery studio</p>
-          <h1>Sip, create and connect</h1>
-          <p className="hero-lead">
-            Un lieu hybride où l'on vient savourer un café, créer de ses mains
-            et partager un moment, simplement.
+        <div className="hero-video-wrap" aria-hidden="true">
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="hero-video"
+            src="/hero-video.mov"
+          />
+          <div className="hero-overlay" />
+        </div>
+
+        <div className="hero-inner">
+          <h1
+            className="hero-title animate-fade-up"
+            style={{ animationDelay: "0.4s" }}
+          >
+            Specialty coffee &amp; pottery studio
+          </h1>
+          <p
+            className="hero-subtitle animate-fade-up"
+            style={{ animationDelay: "0.5s" }}
+          >
+            Sip, create and connect
           </p>
-          <p className="hero-address">25 boulevard du Temple, 75003 Paris</p>
-          <div className="hero-actions">
-            <Link className="btn btn-secondary" to="/ateliers">
+          <p
+            className="hero-lead animate-fade-up"
+            style={{ animationDelay: "0.6s" }}
+          >
+            Un lieu hybride où l&apos;on vient savourer un café, créer de ses
+            mains et partager un moment, simplement.
+          </p>
+          <p
+            className="hero-address animate-fade-up"
+            style={{ animationDelay: "0.65s" }}
+          >
+            25 boulevard du Temple, 75003 Paris
+          </p>
+          <div
+            className="hero-actions animate-fade-up"
+            style={{ animationDelay: "0.8s" }}
+          >
+            <Link className="btn-hero-primary" to="/ateliers">
               Réserver un atelier
             </Link>
-            <Link className="btn btn-glass" to="/carte">
+            <Link className="btn-hero-secondary" to="/carte">
               Découvrir la carte
             </Link>
           </div>
         </div>
       </section>
 
-      <section className="section section-light">
-        <div className="container">
+      <section className="experiences-section">
+        <div className="container-wide">
           <div className="section-heading">
-            <h2>Trois expériences, un même lieu</h2>
-            <p>
+            <h2 className="section-title">Trois expériences, un même lieu</h2>
+            <p className="section-desc">
               Un café de spécialité, des ateliers créatifs et une boutique,
               pensés pour se compléter.
             </p>
@@ -84,84 +117,103 @@ const Home = () => {
                 className="experience-card"
                 key={experience.badge}
                 to={experience.link}
-                style={{ backgroundImage: `url(${experience.image})` }}
               >
-                <span>{experience.badge}</span>
-                <h3>{experience.title}</h3>
-                <p>{experience.action}</p>
+                <img
+                  className={experience.imageClass}
+                  src={experience.image}
+                  alt={experience.title}
+                />
+                <div className="experience-card-overlay">
+                  <div className="experience-card-content">
+                    <span className="experience-badge">{experience.badge}</span>
+                    <h3>{experience.title}</h3>
+                    <span className="experience-action">{experience.action}</span>
+                  </div>
+                </div>
               </Link>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="section gallery-section">
-        <div className="container">
+      <section className="gallery-section">
+        <div className="container-wide">
           <div className="section-heading">
-            <h2>Au cœur de Coffee Arts Paris</h2>
-            <p>
-              Des images pour découvrir l'ambiance du lieu, ses matières, et les
-              instants qui s'y vivent au quotidien.
+            <h2 className="section-title">Au cœur de Coffee Arts Paris</h2>
+            <p className="section-desc">
+              Des images pour découvrir l&apos;ambiance du lieu, ses matières, et
+              les instants
+              <br />
+              qui s&apos;y vivent au quotidien.
             </p>
           </div>
 
-          <div className="gallery-mosaic">
-            {galleryImages.map((image, index) => (
-              <figure className={`gallery-tile tile-${index + 1}`} key={image}>
-                <img src={image} alt="" />
+          <div className="gallery-grid">
+            {galleryImages.map((image) => (
+              <figure className="gallery-item" key={image}>
+                <img src={image} alt="" loading="lazy" />
               </figure>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="section social-section">
-        <div className="container">
-          <div className="section-heading">
-            <h2>Instants Coffee Arts Paris</h2>
-            <p>
+      <section className="instagram-section">
+        <div className="container-wide">
+          <div className="section-heading section-heading--tight">
+            <h2 className="section-title">Instants Coffee Arts Paris</h2>
+            <p className="section-desc section-desc--muted">
               Nos dernières inspirations, nos moments créatifs et la vie du café
               à retrouver sur Instagram.
             </p>
           </div>
 
           <div className="instagram-grid">
-            {instagramCards.map((label, index) => (
-              <article className="instagram-card" key={label}>
-                <img src={galleryImages[index + 1]} alt="" />
-                <div>
+            {instagramPosts.map((post) => (
+              <a
+                className="instagram-card"
+                key={post.label}
+                href="https://www.instagram.com/coffeearts.paris/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img src={post.image} alt="" loading="lazy" />
+                <div className="instagram-card-caption">
                   <span>@coffeeartsparis</span>
-                  <p>{label}</p>
+                  <p>{post.label}</p>
                 </div>
-              </article>
+              </a>
             ))}
           </div>
         </div>
       </section>
 
       <section className="cta-section">
-        <div className="container cta-inner">
-          <p className="eyebrow">Créer, déguster, partager</p>
-          <h2>
+        <div className="cta-blur cta-blur--right" aria-hidden="true" />
+        <div className="cta-blur cta-blur--left" aria-hidden="true" />
+        <div className="container-cta">
+          <h2 className="cta-title">
             Un moment autour du café
             <br />
             et de la création
           </h2>
-          <p>
-            Un lieu où l'on vient créer, discuter, boire un café et s'attarder.
+          <p className="cta-desc">
+            Un lieu où l&apos;on vient créer, discuter, boire un café et
+            s&apos;attarder.
+            <br />
             Des moments simples, à vivre et à partager.
           </p>
           <div className="hero-actions">
-            <Link className="btn btn-secondary" to="/ateliers">
+            <Link className="btn-primary" to="/ateliers">
               Découvrir les ateliers
             </Link>
-            <Link className="btn btn-glass" to="/boutique">
+            <Link className="btn-secondary" to="/boutique">
               Accéder à la boutique
             </Link>
           </div>
         </div>
       </section>
-    </main>
+    </div>
   );
 };
 

@@ -1,29 +1,69 @@
-@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap");
+@font-face {
+  font-family: "Duper";
+  src: url("/fonts/Duper.woff2") format("woff2");
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Outfit";
+  src: url("/fonts/Outfit-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Outfit";
+  src: url("/fonts/Outfit-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Outfit";
+  src: url("/fonts/Outfit-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Outfit";
+  src: url("/fonts/Outfit-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
 
 :root {
-  --green: #4b5341;
-  --green-dark: #343b2f;
-  --sand: #ead8be;
-  --bg-cream: #f7f0e7;
-  --paper: #fffaf3;
-  --text: #2f3329;
-  --muted: #727765;
-  --primary-green: var(--green);
-  --primary-green-rgb: 75, 83, 65;
-  --primary-beige: var(--sand);
-  --primary-beige-rgb: 234, 216, 190;
-  --bg-beige: var(--bg-cream);
-  --accent-green: #9ba58a;
-  --accent-cream: #7b806c;
-  --text-dark: var(--text);
-  --text-muted: var(--muted);
-  --border-light: rgba(75, 83, 65, 0.15);
-  --sans: var(--font-body);
-  --heading: var(--font-title);
-  --font-title: "Cormorant Garamond", Georgia, serif;
-  --font-body: "Inter", Arial, sans-serif;
-  color: var(--text);
-  background: var(--bg-cream);
+  --primary: #58604c;
+  --primary-foreground: #ffffff;
+  --secondary: #ebd6c1;
+  --accent: #acb792;
+  --accent-hero: #e9d7c1;
+  --background: #f7f0e7;
+  --foreground: #58604c;
+  --title-color: #8a8e74;
+  --muted-foreground: #8a8e74;
+  --cta-primary: #acb792;
+  --cta-secondary: #ebd6c1;
+  --radius: 0.75rem;
+
+  --green: var(--primary);
+  --green-dark: #4a5240;
+  --sand: var(--accent-hero);
+  --bg-cream: var(--background);
+  --paper: #ffffff;
+  --text: var(--foreground);
+  --muted: var(--muted-foreground);
+  --font-title: "Duper", sans-serif;
+  --font-body: "Outfit", sans-serif;
+
+  color: var(--foreground);
+  background: var(--background);
   font-family: var(--font-body);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -44,7 +84,7 @@ body {
   min-width: 320px;
   min-height: 100vh;
   overflow-x: hidden;
-  background: var(--bg-cream);
+  background: var(--background);
 }
 
 button,
@@ -76,4 +116,30 @@ h2,
 h3,
 h4 {
   font-family: var(--font-title);
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.8s ease forwards;
 }
